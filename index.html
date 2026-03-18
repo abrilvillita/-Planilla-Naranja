@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -48,8 +48,6 @@ body {
   transform: translate(-50%,-50%);
   transition: all 0.12s ease-out;
 }
-body:hover #cursor { width: 10px; height: 10px; }
-a:hover ~ #cursor, button:hover ~ #cursor { width: 20px; height: 20px; }
 
 /* NOISE OVERLAY */
 body::before {
@@ -326,10 +324,7 @@ nav.scrolled {
   display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
   align-items: center; margin-bottom: 6rem;
 }
-.team-intro-text { }
-.team-intro-stat {
-  text-align: right;
-}
+.team-intro-stat { text-align: right; }
 .stat-number {
   font-family: 'Syne', sans-serif; font-weight: 800;
   font-size: 7rem; line-height: 1;
@@ -380,7 +375,6 @@ nav.scrolled {
 }
 .member-card.pres .member-badge { background: var(--white); }
 
-/* Fake photos with styled placeholders */
 .member-photo-placeholder {
   width: 100%; height: 100%;
   display: flex; align-items: center; justify-content: center;
@@ -388,39 +382,79 @@ nav.scrolled {
   background: linear-gradient(135deg, var(--mid) 0%, rgba(255,98,0,0.08) 100%);
 }
 
-/* ACTIVACIONES */
+/* CAMPAIGN TIMELINE — new phase-based layout */
 #activaciones { background: linear-gradient(180deg, var(--dark) 0%, var(--dark2) 100%); }
 
-.acts-timeline {
-  position: relative; margin-top: 4rem;
-  display: grid; grid-template-columns: 1fr 40px 1fr; gap: 0 2rem;
+.phases-grid {
+  margin-top: 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5px;
+  background: rgba(255,98,0,0.1);
+  border: 1.5px solid rgba(255,98,0,0.1);
+  border-radius: 20px;
+  overflow: hidden;
 }
-.acts-line {
-  grid-column: 2; grid-row: 1 / 99;
-  width: 1px; background: linear-gradient(to bottom, var(--o), transparent);
-  justify-self: center;
+.phase-card {
+  background: var(--dark2);
+  padding: 2.2rem 2rem;
+  position: relative; overflow: hidden;
+  transition: background 0.4s;
 }
-.act-left { text-align: right; padding-bottom: 3rem; }
-.act-right { padding-bottom: 3rem; grid-column: 3; }
-.act-dot {
-  width: 10px; height: 10px; border-radius: 50%; background: var(--o);
-  justify-self: center; margin-top: 1.2rem;
-  box-shadow: 0 0 12px var(--o-glow);
+.phase-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,98,0,0.05) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.4s;
 }
-.act-date {
-  font-size: 0.65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--o); margin-bottom: 0.5rem;
+.phase-card:hover { background: rgba(255,98,0,0.04); }
+.phase-card:hover::before { opacity: 1; }
+.phase-card.full-width { grid-column: 1 / -1; }
+
+.phase-header {
+  display: flex; align-items: flex-start; gap: 1.2rem; margin-bottom: 1.2rem;
 }
-.act-title {
-  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem;
+.phase-num-badge {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  background: rgba(255,98,0,0.12);
+  border: 1px solid rgba(255,98,0,0.25);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 0.7rem; color: var(--o);
 }
-.act-body { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
-.act-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.7rem; justify-content: flex-end; }
-.act-right .act-chips { justify-content: flex-start; }
+.phase-meta { flex: 1; }
+.phase-dates {
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--o); margin-bottom: 0.3rem;
+}
+.phase-title {
+  font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; line-height: 1.25;
+}
+.phase-body {
+  font-size: 0.82rem; color: var(--muted); line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.phase-items {
+  list-style: none; display: flex; flex-direction: column; gap: 0.35rem;
+}
+.phase-items li {
+  display: flex; align-items: baseline; gap: 0.5rem;
+  font-size: 0.8rem; color: var(--muted); line-height: 1.5;
+}
+.phase-items li::before {
+  content: '→'; color: var(--o); font-size: 0.7rem; flex-shrink: 0;
+}
+.phase-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
 .chip {
   background: rgba(255,98,0,0.08); border: 1px solid rgba(255,98,0,0.2);
   color: var(--o2); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.5px;
   padding: 0.2rem 0.6rem; border-radius: 100px; text-transform: uppercase;
+}
+.phase-card.highlight {
+  background: linear-gradient(135deg, rgba(255,98,0,0.1) 0%, rgba(255,98,0,0.03) 100%);
+  border-left: 2px solid var(--o);
 }
 
 /* VOTO CTA */
@@ -470,14 +504,11 @@ footer {
   nav.scrolled { padding: 0.8rem 1.5rem; }
   .nav-links { display: none; }
   .proposals-grid { grid-template-columns: 1fr; }
+  .phases-grid { grid-template-columns: 1fr; }
+  .phase-card.full-width { grid-column: 1; }
   .team-grid { grid-template-columns: repeat(4, 1fr); }
   .team-intro { grid-template-columns: 1fr; gap: 2rem; }
   .team-intro-stat { text-align: left; }
-  .acts-timeline { grid-template-columns: 1fr; }
-  .acts-line { display: none; }
-  .act-left { text-align: left; }
-  .act-chips { justify-content: flex-start; }
-  .act-dot { display: none; }
   footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
   .footer-links { flex-wrap: wrap; justify-content: center; }
 }
@@ -497,8 +528,8 @@ footer {
   <div class="nav-links">
     <a href="#propuestas">Propuestas</a>
     <a href="#equipo">Equipo</a>
-    <a href="#activaciones">Activaciones</a>
-    <a href="#voto" class="nav-cta">Vota por nosotros</a>
+    <a href="#activaciones">Campaña</a>
+    <a href="https://www.instagram.com/planilla_naranja_lag/" target="_blank" class="nav-cta">Síguenos en Instagram</a>
   </div>
 </nav>
 
@@ -602,7 +633,23 @@ footer {
         <div class="proposal-num">06</div>
         <span class="proposal-icon">⚡</span>
         <div class="proposal-title">Cargadores y Kit de Emergencia</div>
-        <div class="proposal-body">Sistema de préstamo en la FETECMI: cargadores universales, calculadoras, USB, audifonos. Olvidaste algo importante hoy — lo tienes. Sin tramitología, sin costo.</div>
+        <div class="proposal-body">Sistema de préstamo en la FETECMI: cargadores universales, calculadoras, USB, audífonos. Olvidaste algo importante hoy — lo tienes. Sin tramitología, sin costo.</div>
+        <span class="proposal-tag">Impacto Social</span>
+      </div>
+
+      <div class="proposal-card">
+        <div class="proposal-num">07</div>
+        <span class="proposal-icon">🏃</span>
+        <div class="proposal-title">Torneo Deportivo Relámpago Inter-Carrera</div>
+        <div class="proposal-body">Un torneo express de fútbol rápido o básquetbol en las canchas del campus, organizado entre carreras. Equipos de 5, formato eliminación directa, una tarde y listos. La FETECMI coordina la logística, el campus pone la cancha, los alumnos ponen la energía. Sin inscripción previa complicada — solo ganas de jugar.</div>
+        <span class="proposal-tag">Athletics</span>
+      </div>
+
+      <div class="proposal-card">
+        <div class="proposal-num">08</div>
+        <span class="proposal-icon">🌳</span>
+        <div class="proposal-title">Torreón Florece</div>
+        <div class="proposal-body">Porque nuestra responsabilidad no termina en las puertas del campus. Organizamos una jornada de reforestación urbana en un parque o área verde de Torreón — el equipo y quien quiera sumarse, plantando árboles lado a lado en la ciudad que todos compartimos. Sin obligaciones, sin cuotas. Solo acción real con impacto real.</div>
         <span class="proposal-tag">Impacto Social</span>
       </div>
 
@@ -627,7 +674,6 @@ footer {
 
     <div class="team-grid reveal" style="transition-delay:0.15s">
 
-      <!-- Paulina - Presidenta -->
       <div class="member-card pres">
         <img src="/mnt/user-data/uploads/WhatsApp_Image_2026-03-05_at_9_25_26_PM.jpeg" class="member-photo" alt="Paulina Salcedo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="member-photo-placeholder" style="display:none">👑</div>
@@ -638,7 +684,6 @@ footer {
         </div>
       </div>
 
-      <!-- Dante - Arte y Cultura -->
       <div class="member-card">
         <img src="/mnt/user-data/uploads/WhatsApp_Image_2026-03-05_at_9_25_28_PM__1_.jpeg" class="member-photo" alt="Dante Gutierrez" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="member-photo-placeholder" style="display:none">🎨</div>
@@ -649,7 +694,6 @@ footer {
         </div>
       </div>
 
-      <!-- Josue - Athletics -->
       <div class="member-card">
         <img src="/mnt/user-data/uploads/WhatsApp_Image_2026-03-05_at_9_25_28_PM__2_.jpeg" class="member-photo" alt="Josue Perez" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="member-photo-placeholder" style="display:none">🏃</div>
@@ -660,7 +704,6 @@ footer {
         </div>
       </div>
 
-      <!-- Jorge - E-Sports -->
       <div class="member-card">
         <img src="/mnt/user-data/uploads/WhatsApp_Image_2026-03-05_at_9_25_27_PM.jpeg" class="member-photo" alt="Jorge Cornejo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="member-photo-placeholder" style="display:none">🎮</div>
@@ -671,7 +714,6 @@ footer {
         </div>
       </div>
 
-      <!-- Emiliano - Impacto Social -->
       <div class="member-card">
         <img src="/mnt/user-data/uploads/WhatsApp_Image_2026-03-05_at_9_25_28_PM__3_.jpeg" class="member-photo" alt="Emiliano Valdez" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="member-photo-placeholder" style="display:none">🌱</div>
@@ -682,7 +724,6 @@ footer {
         </div>
       </div>
 
-      <!-- Sofia - Finanzas -->
       <div class="member-card">
         <img src="/mnt/user-data/uploads/WhatsApp_Image_2026-03-05_at_9_25_28_PM__4_.jpeg" class="member-photo" alt="Sofia Tinajero" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="member-photo-placeholder" style="display:none">💰</div>
@@ -693,7 +734,6 @@ footer {
         </div>
       </div>
 
-      <!-- Abril - Comunicación -->
       <div class="member-card">
         <img src="/mnt/user-data/uploads/WhatsApp_Image_2026-03-05_at_9_23_17_PM.jpeg" class="member-photo" alt="Abril Miranda" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="member-photo-placeholder" style="display:none">📱</div>
@@ -708,83 +748,143 @@ footer {
   </div>
 </section>
 
-<!-- ACTIVACIONES -->
+<!-- CAMPAÑA / ACTIVACIONES -->
 <section id="activaciones" class="section">
   <div class="section-inner">
     <div class="reveal">
-      <div class="section-label">Campaña</div>
-      <h2 class="section-title">Lo que viene.<br>Semana a semana.</h2>
+      <div class="section-label">Campaña 18 Mar – 10 Abr</div>
+      <h2 class="section-title">Cómo vamos a<br>ganar esto.</h2>
+      <p style="color:var(--muted);font-size:0.9rem;line-height:1.8;margin-top:1.5rem;max-width:540px">Tres semanas de preparación, una semana de campaña intensa, y cinco días finales que el campus no va a olvidar.</p>
     </div>
 
-    <div class="acts-timeline reveal" style="transition-delay:0.2s">
-      <div class="acts-line"></div>
+    <div class="phases-grid reveal" style="transition-delay:0.2s">
 
-      <!-- Semana 1 -->
-      <div class="act-right" style="grid-column:3;grid-row:1">
-        <div class="act-date">Mar 9 — Semana 1</div>
-        <div class="act-title">Activación Naranja en el Campus 🍊💨</div>
-        <div class="act-body">Llegamos con paliacates, camisas naranjas y la bocina a todo. Bomba de humo naranja en la explanada. Repartimos naranjas preparadas con tajín y botanas mini. Pintamos caras naranja. Gracias al color que nos tocó, lo volvemos nuestra identidad total.</div>
-        <div class="act-chips">
-          <span class="chip">Bomba de humo</span>
-          <span class="chip">Naranjas + tajín</span>
-          <span class="chip">Botanas mini</span>
-          <span class="chip">Video grupal</span>
+      <!-- FASE 1 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <div class="phase-num-badge">1</div>
+          <div class="phase-meta">
+            <div class="phase-dates">18 – 24 Marzo · Organización</div>
+            <div class="phase-title">Construimos las bases</div>
+          </div>
+        </div>
+        <div class="phase-body">Semana de trabajo interno: definimos responsables, estimamos presupuesto completo y escuchamos directamente a los estudiantes para reforzar nuestras propuestas.</div>
+        <ul class="phase-items">
+          <li>Asignación de roles y responsables del equipo</li>
+          <li>Estimación de costos de toda la campaña</li>
+          <li>Reuniones y sondeos con compañeros del campus</li>
+          <li>Diseño del marco de fotos y carteles grandes</li>
+          <li>Planeación de la decoración de baños</li>
+          <li>Compra de chocolates para dinámica diaria en Instagram</li>
+        </ul>
+        <div class="phase-chips">
+          <span class="chip">Planeación interna</span>
+          <span class="chip">Diseño gráfico</span>
+          <span class="chip">Presupuesto</span>
         </div>
       </div>
-      <div class="act-dot" style="grid-column:2;grid-row:1"></div>
 
-      <!-- Semana 2 -->
-      <div class="act-left" style="grid-column:1;grid-row:2">
-        <div class="act-date">Mar 16 — Semana 2</div>
-        <div class="act-title">Decoración de Baños ✨</div>
-        <div class="act-body">Intervenimos los baños del campus con decoración naranja, espejo decorado, mensajes motivacionales, y dejamos toallas íntimas y artículos de cuidado personal en baños de mujeres. La gente lo nota y lo recuerda.</div>
-        <div class="act-chips">
-          <span class="chip">Decoración</span>
-          <span class="chip">Detalle de bienestar</span>
+      <!-- FASE 2 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <div class="phase-num-badge">2</div>
+          <div class="phase-meta">
+            <div class="phase-dates">25 – 31 Marzo · Producción</div>
+            <div class="phase-title">Todo listo antes de salir</div>
+          </div>
         </div>
-      </div>
-      <div class="act-dot" style="grid-column:2;grid-row:2"></div>
-
-      <!-- Semana 3 -->
-      <div class="act-right" style="grid-column:3;grid-row:3">
-        <div class="act-date">Mar 23 — Semana 3</div>
-        <div class="act-title">TikTok Trivia + Dulces 🎯</div>
-        <div class="act-body">Salimos a los pasillos con cámara y micrófono. Preguntas de cultura general, concursos espontáneos. El que acierta gana un dulce naranja. El contenido va directo al TikTok y al Instagram — viral desde adentro del campus.</div>
-        <div class="act-chips">
-          <span class="chip">TikTok</span>
-          <span class="chip">Instagram Reel</span>
-          <span class="chip">Interacción real</span>
-        </div>
-      </div>
-      <div class="act-dot" style="grid-column:2;grid-row:3"></div>
-
-      <!-- Semana 4 -->
-      <div class="act-left" style="grid-column:1;grid-row:4">
-        <div class="act-date">Mar 30 — Semana 4</div>
-        <div class="act-title">Lona en el Edificio + Carteles 📣</div>
-        <div class="act-body">La lona con el nombre y propuestas colgada en un edificio visible. Carteles en corredores y tarjetas de presentación naranjas en mesas del comedor y biblioteca. La semana antes de las votaciones, el campus huele naranja.</div>
-        <div class="act-chips">
-          <span class="chip">Lona grande</span>
+        <div class="phase-body">Semana de producción: fabricamos y conseguimos todos los materiales para que la campaña arranque sin contratiempos.</div>
+        <ul class="phase-items">
+          <li>Producción de stickers con el logo de la planilla</li>
+          <li>Impresión de carteles grandes a color</li>
+          <li>Ensamble del marco de fotos naranja</li>
+          <li>Compra y preparación de la lona</li>
+          <li>Compra y preparación de la botarga naranja</li>
+          <li>Insumos para naranjas preparadas y churros (abastos a granel)</li>
+        </ul>
+        <div class="phase-chips">
+          <span class="chip">Stickers</span>
           <span class="chip">Carteles</span>
-          <span class="chip">Tarjetas</span>
-          <span class="chip">Dulces</span>
+          <span class="chip">Lona</span>
+          <span class="chip">Botarga</span>
+          <span class="chip">Consumibles</span>
         </div>
       </div>
-      <div class="act-dot" style="grid-column:2;grid-row:4"></div>
 
-      <!-- Semana de Planillas -->
-      <div class="act-right" style="grid-column:3;grid-row:5">
-        <div class="act-date">Abr 6–10 — Semana Final</div>
-        <div class="act-title">Stand + Papas Brothers + Botarga 🏁🍟</div>
-        <div class="act-body">Stand en la explanada con decoración naranja total. Carrito de Papas Brothers de nuestro lado. Uno del equipo vestido de botarga naranja entregando flyers. Es el cierre más fuerte que podemos hacer antes del día de votación.</div>
-        <div class="act-chips">
-          <span class="chip">Stand explanada</span>
-          <span class="chip">Papas Brothers</span>
-          <span class="chip">Botarga naranja</span>
-          <span class="chip">Props</span>
+      <!-- FASE 3 -->
+      <div class="phase-card">
+        <div class="phase-header">
+          <div class="phase-num-badge">3</div>
+          <div class="phase-meta">
+            <div class="phase-dates">1 – 3 Abril · Pre-Campaña</div>
+            <div class="phase-title">El campus empieza a vernos</div>
+          </div>
+        </div>
+        <div class="phase-body">Los días previos a la campaña intensa: el campus empieza a llenarse de naranja antes de que arranque la semana de votaciones.</div>
+        <ul class="phase-items">
+          <li>Colocación de carteles en pasillos y corredores</li>
+          <li>Decoración de baños del campus lista y en su lugar</li>
+          <li>Stand organizado y listo para montar</li>
+          <li>Dinámicas de campaña fuerte definidas por todo el equipo</li>
+        </ul>
+        <div class="phase-chips">
+          <span class="chip">Carteles</span>
+          <span class="chip">Baños decorados</span>
+          <span class="chip">Stand listo</span>
         </div>
       </div>
-      <div class="act-dot" style="grid-column:2;grid-row:5"></div>
+
+      <!-- FASE 4 -->
+      <div class="phase-card highlight">
+        <div class="phase-header">
+          <div class="phase-num-badge">4</div>
+          <div class="phase-meta">
+            <div class="phase-dates">4 – 5 Abril · Campaña Fuerte</div>
+            <div class="phase-title">Máxima presencia en el campus</div>
+          </div>
+        </div>
+        <div class="phase-body">Los dos días antes de las votaciones con activaciones diarias y presencia constante en todo el campus.</div>
+        <ul class="phase-items">
+          <li>Marco de fotos naranja activo en la explanada</li>
+          <li>Reparto de stickers y materiales de campaña</li>
+          <li>Dinámicas con chocolates y golosinas naranjas</li>
+          <li>Naranjas preparadas y churros para toda la comunidad</li>
+          <li>Botarga naranja recorriendo el campus</li>
+          <li>Lona visible en edificio principal</li>
+          <li>Gafas decoradas, pintura de cara naranja, serpentina y bengalas de humo</li>
+          <li>Bocina con la identidad sonora de la planilla</li>
+        </ul>
+        <div class="phase-chips">
+          <span class="chip">Activación total</span>
+          <span class="chip">Interacción directa</span>
+          <span class="chip">Ambiente naranja</span>
+        </div>
+      </div>
+
+      <!-- FASE 5 -->
+      <div class="phase-card highlight full-width">
+        <div class="phase-header">
+          <div class="phase-num-badge">5</div>
+          <div class="phase-meta">
+            <div class="phase-dates">6 – 10 Abril · Días de Votación</div>
+            <div class="phase-title">El cierre más grande que podemos hacer 🏁</div>
+          </div>
+        </div>
+        <div class="phase-body">La semana de votaciones es nuestra oportunidad de mostrar por qué somos la opción. Stand oficial, presencia de todo el equipo, y conversaciones reales con la comunidad.</div>
+        <ul class="phase-items">
+          <li>Stand oficial en la explanada con globos naranjas y lona de fondo</li>
+          <li>Presentación de propuestas en vivo a cualquier alumno que se acerque</li>
+          <li>Equipo completo en el campus con micrófonos y bocina para llegar a más personas</li>
+          <li>Activaciones de alto impacto todos los días hasta el cierre de votaciones</li>
+          <li>Toda la identidad visual y de ambiente de la Planilla Naranja al 100%</li>
+        </ul>
+        <div class="phase-chips">
+          <span class="chip">Stand explanada</span>
+          <span class="chip">Propuestas en vivo</span>
+          <span class="chip">Equipo completo</span>
+          <span class="chip">Votaciones abiertas</span>
+        </div>
+      </div>
 
     </div>
   </div>
@@ -793,11 +893,11 @@ footer {
 <!-- VOTO CTA -->
 <section id="voto">
   <div style="position:relative;z-index:2">
-    <div class="voto-label">Día de votaciones</div>
-    <div class="voto-date">6–10 Abril</div>
+    <div class="voto-label">Días de votaciones</div>
+    <div class="voto-date">6–10 Abr</div>
     <p class="voto-text">Tu voto elige quién representa a toda la comunidad Tecmilenio Torreón. Hazlo valer.</p>
     <div class="voto-cta">
-      <a href="https://www.instagram.com/naranjas2026" target="_blank" class="btn-primary">Seguirnos en Instagram →</a>
+      <a href="https://www.instagram.com/planilla_naranja_lag/" target="_blank" class="btn-primary">Seguirnos en Instagram →</a>
     </div>
   </div>
 </section>
@@ -806,7 +906,7 @@ footer {
 <footer>
   <div class="footer-logo">🍊 PLANILLA NARANJA</div>
   <div class="footer-links">
-    <a href="https://www.instagram.com/naranjas2026" target="_blank">@naranjas2026</a>
+    <a href="https://www.instagram.com/planilla_naranja_lag/" target="_blank">@planilla_naranja_lag</a>
     <a href="#propuestas">Propuestas</a>
     <a href="#equipo">Equipo</a>
   </div>
